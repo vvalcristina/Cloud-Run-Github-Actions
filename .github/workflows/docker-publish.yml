@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Docker
 on:
   push:
     branches:
@@ -26,6 +26,9 @@ jobs:
       # Build and push image to Google Container Registry
       - name: Build
         run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA
-
+      
+      - name: Push Docker image
+        run: docker push gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA
+        
       - name: Deploy
         run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA --platform managed --region $RUN_REGION --allow-unauthenticated
