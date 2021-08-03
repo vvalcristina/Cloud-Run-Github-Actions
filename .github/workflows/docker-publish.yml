@@ -20,7 +20,7 @@ jobs:
       # Setup gcloud CLI
       - uses: google-github-actions/deploy-cloudrun@main
         with:
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       # Build and push image to Google Container Registry
