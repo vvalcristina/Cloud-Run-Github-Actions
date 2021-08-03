@@ -13,12 +13,12 @@ jobs:
   deploy:
     name: Deploy to Cloud Run
     runs-on: ubuntu-latest
-    #if: "contains(github.event.head_commit.message, 'to deploy')"
+    if: "contains(github.event.head_commit.message, 'to deploy')"
     steps:
       - uses: actions/checkout@v2
 
       # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/deploy-cloudrun@main
         with:
           version: "290.0.1"
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
