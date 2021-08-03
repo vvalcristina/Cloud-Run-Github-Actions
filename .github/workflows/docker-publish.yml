@@ -27,9 +27,9 @@ jobs:
           run: gcloud auth configure-docker
 
         - name: Build da imagem do Docker
-          run: docker build --tag=gcr.io/${{ secrets.GCP_EMAIL}}/${{ secrets.GCP_APP_NAME }}:${{  github.sha }} .
+          run: docker build -t . $IMAGE_NAME
         - name: Push Docker image
-          run: docker push  gcr.io/${{ secrets.GCP_EMAIL}}/${{ secrets.GCP_APP_NAME }}:${{  github.sha }}
+          run: docker push  $IMAGE_NAME
           
         - name: Deploy Docker image
           run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region us-east1 --platform managed       
