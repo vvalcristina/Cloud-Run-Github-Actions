@@ -1,8 +1,9 @@
 name: Docker
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   APP_ID: continous-deployment
@@ -12,7 +13,7 @@ jobs:
   deploy:
     name: Deploy to Cloud Run
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, 'to deploy')"
+    #if: "contains(github.event.head_commit.message, 'to deploy')"
     steps:
       - uses: actions/checkout@v2
 
