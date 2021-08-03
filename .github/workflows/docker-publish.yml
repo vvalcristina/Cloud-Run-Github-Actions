@@ -20,7 +20,6 @@ jobs:
       # Setup gcloud CLI
       - uses: google-github-actions/deploy-cloudrun@main
         with:
-          version: "290.0.1"
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
