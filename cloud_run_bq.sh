@@ -13,8 +13,6 @@ bq show cloud_run_tmp || bq mk cloud_run_tmp
 gcloud builds submit --tag ${CONTAINER}
 gcloud run deploy ${SERVICE} --image $CONTAINER --platform managed
 
-# exit;
-
 # Setup authentication
 gcloud config set run/region $REGION
 gcloud projects add-iam-policy-binding $PROJECT \
@@ -24,7 +22,6 @@ gcloud projects add-iam-policy-binding $PROJECT \
 gcloud projects add-iam-policy-binding $PROJECT \
     --member=serviceAccount:${SVC_ACCOUNT} \
     --role='roles/eventarc.admin'
-
 
 # Create a trigger from BigQuery
 gcloud eventarc triggers delete ${SERVICE}-trigger --location ${REGION}
