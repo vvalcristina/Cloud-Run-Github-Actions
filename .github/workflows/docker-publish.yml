@@ -1,8 +1,9 @@
 name: Docker
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   APP_ID: continous-deployment
@@ -16,19 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/deploy-cloudrun@main
         with:
-          version: "290.0.1"
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          service: hello-cloud-run 
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # Build and push image to Google Container Registry
       - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA
+        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
       
       - name: Push Docker image
-        run: docker push gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA
+        run: docker push gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
         
       - name: Deploy
-        run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA --platform managed --region $RUN_REGION --allow-unauthenticated
+        run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF --platform managed --region $RUN_REGION --allow-unauthenticated
