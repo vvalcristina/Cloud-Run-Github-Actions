@@ -17,14 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Setup gcloud CLI
       - uses: google-github-actions/deploy-cloudrun@main
         with:
           service: hello-cloud-run 
           credentials: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # Build and push image to Google Container Registry
       - name: Build
         run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
       
