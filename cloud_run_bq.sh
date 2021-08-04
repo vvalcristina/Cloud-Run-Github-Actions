@@ -2,7 +2,7 @@
 SERVICE=bq-cloud-run
 PROJECT=$(gcloud config get-value project)
 CONTAINER="gcr.io/${PROJECT}/${SERVICE}"
-REGION="us-central1"
+REGION="us-east1"
 PROJECT_NO=$(gcloud projects list --filter="$PROJECT" --format="value(PROJECT_NUMBER)")
 SVC_ACCOUNT="${PROJECT_NO}-compute@developer.gserviceaccount.com"
 
