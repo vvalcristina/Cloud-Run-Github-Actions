@@ -1,13 +1,13 @@
 # https://hub.docker.com/_/python
 FROM python:3.9-slim
 
-# Allow statements and log messages to immediately appear in the Cloud Run logs
+#Para verificar os logs no Cloud Run
 ENV PYTHONUNBUFFERED True
 
-# Install production dependencies.
+# Instalar dependências
 RUN pip install Flask==1.1.2 gunicorn==20.0.4 google-cloud-bigquery
 
-# Copy local code to the container image.
+#Copiar a imagem local para o Docker
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY *.py ./
