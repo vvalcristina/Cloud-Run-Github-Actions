@@ -25,11 +25,11 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
+        run: gcloud builds submit --tag ${CONTAINER} 
       
       - name: Push Docker image
-        run: docker push gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
+        run: docker push ${CONTAINER} 
         
       - name: Deploy
-        run: gcloud run deploy ${SERVICE} --image $CONTAINER --platform managed --region $REGION --allow-unauthenticated
+        run: gcloud run deploy ${SERVICE} --image ${CONTAINER} --platform managed --region $REGION --allow-unauthenticated
 
