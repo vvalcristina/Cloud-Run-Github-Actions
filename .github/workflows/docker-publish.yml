@@ -9,7 +9,7 @@ env:
   SERVICE: bq-cloud-run
   RUN_REGION: us-east1
   SA_KEY_JSON: ${{ secrets.GCP_CREDENTIALS }}
-  CONTAINER: "gcr.io/${PROJECT_ID}/${SERVICE}"
+  CONTAINER: gcr.io/${PROJECT_ID}/${SERVICE}
 jobs:
   deploy:
     name: Deploy to Cloud Run
@@ -31,5 +31,5 @@ jobs:
         run: docker push ${CONTAINER} 
         
       - name: Deploy
-        run: gcloud run deploy ${SERVICE} --image ${CONTAINER} --platform managed --region $REGION --allow-unauthenticated
+        run: gcloud run deploy ${SERVICE} --image gcr.io/${PROJECT_ID}/${SERVICE} --platform managed --region $REGION --allow-unauthenticated
 
