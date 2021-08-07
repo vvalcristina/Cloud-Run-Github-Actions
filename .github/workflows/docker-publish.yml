@@ -6,9 +6,10 @@ on:
     branches: [ main ]
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  APP_ID: continous-deployment
+  SERVICE: bq-cloud-run
   RUN_REGION: us-east1
   SA_KEY_JSON: ${{ secrets.GCP_CREDENTIALS }}
+  CONTAINER: "gcr.io/${PROJECT_ID}/${SERVICE}"
 jobs:
   deploy:
     name: Deploy to Cloud Run
@@ -30,4 +31,5 @@ jobs:
         run: docker push gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
         
       - name: Deploy
-        run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF --platform managed --region $RUN_REGION --allow-unauthenticated
+        run: gcloud run deploy ${SERVICE} --image $CONTAINER --platform managed --region $REGION --allow-unauthenticated
+
