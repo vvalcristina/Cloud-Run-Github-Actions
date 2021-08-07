@@ -11,7 +11,7 @@ bq show cloud_run_tmp || bq mk cloud_run_tmp
 
 # Build docker image and deploy it to Cloud Run
 gcloud builds submit --tag ${CONTAINER}
-gcloud run deploy ${SERVICE} --image $CONTAINER --platform managed
+gcloud run deploy ${SERVICE} --image $CONTAINER --platform managed  --allow-unauthenticated
 
 # Setup authentication
 gcloud config set run/region $REGION
