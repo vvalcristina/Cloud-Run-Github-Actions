@@ -1,5 +1,20 @@
 import os
 
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    name = os.environ.get("NAME", "World")
+    return "Hello {}!".format(name)
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+
+"""
+import os
+
 from flask import Flask, request
 import json
 from google.cloud import bigquery
@@ -34,7 +49,7 @@ def index():
 
 def create_agg():
     client = bigquery.Client()
-    query = """
+    query = 
 CREATE OR REPLACE TABLE cloud_run_tmp.created_by_trigger AS
 SELECT 
   name, SUM(number) AS n
@@ -42,7 +57,7 @@ FROM cloud_run_tmp.cloud_run_trigger
 GROUP BY name
 ORDER BY n desc
 LIMIT 10
-    """
+    
     client.query(query)
     return query
 
@@ -51,3 +66,5 @@ LIMIT 10
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
 # [END eventarc_gcs_server]
+
+""""
