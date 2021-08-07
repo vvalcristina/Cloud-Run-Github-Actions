@@ -19,7 +19,7 @@ jobs:
 
       - uses: google-github-actions/deploy-cloudrun@main
         with:
-          service: hello-cloud-run 
+          service: bq-cloud-run
           credentials: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
