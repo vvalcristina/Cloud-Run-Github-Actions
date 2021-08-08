@@ -30,8 +30,8 @@ jobs:
       - name: Build
         run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-         gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
+         gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/$APP_ID:$GITHUB_REF
          gcloud config set run/region $RUN_REGION
         
       - name: Deploy
-        run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF --platform managed --region $RUN_REGION --allow-unauthenticated
+        run: gcloud run deploy $APP_ID --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/$APP_ID:$GITHUB_REF --platform managed --region $RUN_REGION --allow-unauthenticated
