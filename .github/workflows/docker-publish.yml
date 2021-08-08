@@ -1,9 +1,9 @@
 name: Docker
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   APP_ID: continous-deployment
@@ -23,11 +23,15 @@ jobs:
           credentials: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Configure Docker
+        run: |
+         gcloud auth configure-docker
+
       - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
-      
-      - name: Push Docker image
-        run: docker push gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
+        run: |
+         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+         gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF
+         gcloud config set run/region us-east1
         
       - name: Deploy
         run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_REF --platform managed --region $RUN_REGION --allow-unauthenticated
