@@ -4,11 +4,6 @@ on:
     branches: [ develop ]
   pull_request:
     branches: [ develop ]
-env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  APP_ID: continous-deployment
-  RUN_REGION: us-central1
-  SA_KEY_JSON: ${{ secrets.GCP_CREDENTIALS }}
 jobs:
   deploy:
     name: Deploy to Cloud Run
@@ -26,13 +21,13 @@ jobs:
       - name: Configure Docker
         run: |
          gcloud auth configure-docker
-         echo $APP_ID
+         echo $service
 
       - name: Build
         run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-         gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/$APP_ID:$GITHUB_REF
-         gcloud config set run/region $RUN_REGION
+         gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-cloud-run 
+         gcloud config set run/region us-central1
         
       - name: Deploy
-        run: gcloud run deploy $APP_ID --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/$APP_ID:$GITHUB_REF --platform managed --region $RUN_REGION --allow-unauthenticated
+        run: gcloud run deploy hello-cloud-run --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-cloud-run  --platform managed --region us-central1 --allow-unauthenticated
