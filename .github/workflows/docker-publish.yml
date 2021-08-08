@@ -26,6 +26,7 @@ jobs:
       - name: Configure Docker
         run: |
          gcloud auth configure-docker
+         echo $APP_ID
 
       - name: Build
         run: |
